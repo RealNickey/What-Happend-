@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOnClickOutside } from "usehooks-ts";
@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils";
 const buttonVariants = {
   initial: {
     gap: 0,
-    paddingLeft: ".5rem",
-    paddingRight: ".5rem",
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
   },
   animate: (isSelected) => ({
-    gap: isSelected ? ".5rem" : 0,
-    paddingLeft: isSelected ? "1rem" : ".5rem",
-    paddingRight: isSelected ? "1rem" : ".5rem",
+    gap: isSelected ? "1rem" : 0,
+    paddingLeft: isSelected ? "1.5rem" : "1rem",
+    paddingRight: isSelected ? "1.5rem" : "1rem",
   }),
 };
 
@@ -29,7 +29,7 @@ export function ExpandableTabs({
   tabs,
   className,
   activeColor = "text-primary",
-  onChange
+  onChange,
 }) {
   const [selected, setSelected] = React.useState(null);
   const outsideClickRef = React.useRef(null);
@@ -45,16 +45,17 @@ export function ExpandableTabs({
   };
 
   const Separator = () => (
-    <div className="mx-1 h-[24px] w-[1.2px] bg-border" aria-hidden="true" />
+    <div className="mx-2 h-[32px] w-[1.5px] bg-border" aria-hidden="true" />
   );
 
   return (
-    (<div
+    <div
       ref={outsideClickRef}
       className={cn(
-        "flex flex-wrap items-center gap-2 rounded-2xl border bg-background p-1 shadow-sm",
-        className
-      )}>
+        "flex flex-wrap items-center gap-3 rounded-3xl border bg-background p-2 shadow-sm",
+        className,
+      )}
+    >
       {tabs.map((tab, index) => {
         if (tab.type === "separator") {
           return <Separator key={`separator-${index}`} />;
@@ -62,7 +63,7 @@ export function ExpandableTabs({
 
         const Icon = tab.icon;
         return (
-          (<motion.button
+          <motion.button
             key={tab.title}
             variants={buttonVariants}
             initial={false}
@@ -71,12 +72,13 @@ export function ExpandableTabs({
             onClick={() => handleSelect(index)}
             transition={transition}
             className={cn(
-              "relative flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-300",
+              "relative flex items-center rounded-2xl px-6 py-3 text-base font-medium transition-colors duration-300",
               selected === index
                 ? cn("bg-muted", activeColor)
-                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-            )}>
-            <Icon size={20} />
+                : "text-muted-foreground hover:bg-muted hover:text-foreground",
+            )}
+          >
+            <Icon size={24} />
             <AnimatePresence initial={false}>
               {selected === index && (
                 <motion.span
@@ -85,14 +87,15 @@ export function ExpandableTabs({
                   animate="animate"
                   exit="exit"
                   transition={transition}
-                  className="overflow-hidden">
+                  className="overflow-hidden"
+                >
                   {tab.title}
                 </motion.span>
               )}
             </AnimatePresence>
-          </motion.button>)
+          </motion.button>
         );
       })}
-    </div>)
+    </div>
   );
 }
