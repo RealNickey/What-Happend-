@@ -1,7 +1,13 @@
 import { Textarea } from "./components/ui/textarea";
 import FlickeringGrid from "./components/ui/flickering-grid";
 import { ExpandableTabs } from "./components/ui/expandable-tabs";
-import { NotebookText, Smile, MessageCircleHeart, Brain } from "lucide-react";
+import {
+  NotebookText,
+  Smile,
+  MessageCircleHeart,
+  Brain,
+  MessageCircleDashed,
+} from "lucide-react";
 
 function App() {
   const tabs = [
@@ -14,6 +20,10 @@ function App() {
   return (
     <>
       <FlickeringGrid />
+      <div className="fixed left-4 top-4 flex items-center gap-2 rounded-lg bg-background/80 p-2 backdrop-blur-sm md:left-6 md:top-6 md:p-3">
+        <MessageCircleDashed className="h-5 w-5 md:h-6 md:w-6" />
+        <span className="text-sm font-medium md:text-base">What Happend</span>
+      </div>
       <div className="fixed inset-0 flex flex-col items-center justify-center gap-6 p-4 md:gap-8">
         <Textarea
           placeholder="Click here to paste your text..."
