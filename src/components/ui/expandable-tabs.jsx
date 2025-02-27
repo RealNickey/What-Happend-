@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils";
 const buttonVariants = {
   initial: {
     gap: 0,
-    paddingLeft: "1rem",
-    paddingRight: "1rem",
+    paddingLeft: "0.75rem",
+    paddingRight: "0.75rem",
   },
   animate: (isSelected) => ({
-    gap: isSelected ? "1rem" : 0,
-    paddingLeft: isSelected ? "1.5rem" : "1rem",
-    paddingRight: isSelected ? "1.5rem" : "1rem",
+    gap: isSelected ? "0.5rem" : 0,
+    paddingLeft: isSelected ? "1rem" : "0.75rem",
+    paddingRight: isSelected ? "1rem" : "0.75rem",
   }),
 };
 
@@ -52,7 +52,7 @@ export function ExpandableTabs({
     <div
       ref={outsideClickRef}
       className={cn(
-        "flex flex-wrap items-center gap-3 rounded-3xl border bg-background p-2 shadow-sm",
+        "flex items-center gap-2 rounded-3xl border bg-background p-1.5 shadow-sm md:gap-3 md:p-2",
         className,
       )}
     >
@@ -72,7 +72,7 @@ export function ExpandableTabs({
             onClick={() => handleSelect(index)}
             transition={transition}
             className={cn(
-              "relative flex items-center rounded-2xl px-6 py-3 text-base font-medium transition-colors duration-300",
+              "relative flex items-center whitespace-nowrap rounded-2xl px-4 py-2 text-sm font-medium transition-colors duration-300 md:px-6 md:py-3 md:text-base",
               selected === index
                 ? cn("bg-muted", activeColor)
                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
