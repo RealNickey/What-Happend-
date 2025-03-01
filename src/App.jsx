@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Textarea } from "./components/ui/textarea";
 import FlickeringGrid from "./components/ui/flickering-grid";
 import { ExpandableTabs } from "./components/ui/expandable-tabs";
@@ -8,14 +9,53 @@ import {
   Brain,
   MessageCircleDashed,
 } from "lucide-react";
+import { summarizeText, rewriteText } from "./lib/api";
 
 function App() {
+  const [inputText, setInputText] = useState("");
+  const [processedText, setProcessedText] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const tabs = [
     { title: "Summary", icon: NotebookText },
     { title: "Funny", icon: Smile },
     { title: "Flirty", icon: MessageCircleHeart },
     { title: "Analysis", icon: Brain },
   ];
+
+  const handleTabChange = async (index) => {
+    if (!inputText) return;
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      let result;
+      switch (index) {
+        case 0: // Summary
+          result = await summarizeText(inputText);
+          break;
+        case 1: // Funny
+          result = await rewriteText(inputText, "funny");
+          break;
+        case 2: // Flirty
+          result = await rewriteText(inputText, "flirty");
+          break;
+        case 3: // Analysis
+          result = await rewriteText(inputText, "analytical");
+          break;
+        default:
+          setProcessedText("");
+          return;
+      }
+      setProcessedText(result);
+    } catch (err) {
+      setError(err.message);
+      console.error("Error processing text:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -27,11 +67,13 @@ function App() {
       <div className="fixed inset-0 flex flex-col items-center justify-center gap-6 p-4 md:gap-8">
         <Textarea
           placeholder="Click here to paste your text..."
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
           onClick={async (e) => {
-            if (!e.target.value) {
+            if (!inputText) {
               try {
                 const text = await navigator.clipboard.readText();
-                e.target.value = text;
+                setInputText(text);
               } catch (err) {
                 console.error("Failed to read clipboard:", err);
               }
@@ -40,13 +82,26 @@ function App() {
           onPaste={(e) => {
             e.preventDefault();
             const text = e.clipboardData.getData("text");
-            e.target.value = text;
+            setInputText(text);
           }}
           className="min-h-[120px] w-full max-w-2xl bg-background/80 text-base backdrop-blur-sm md:min-h-[160px] md:text-lg"
         />
+        {processedText && (
+          <Textarea
+            value={processedText}
+            readOnly
+            className="min-h-[120px] w-full max-w-2xl bg-background/80 text-base backdrop-blur-sm md:min-h-[160px] md:text-lg"
+          />
+        )}
+        {isLoading ? (
+          <div className="text-blue-500">Processing your text...</div>
+        ) : error ? (
+          <div className="text-red-500">{error}</div>
+        ) : null}
         <ExpandableTabs
           tabs={tabs}
           className="max-w-[400px] bg-background/80 text-base backdrop-blur-sm md:text-lg"
+          onChange={handleTabChange}
         />
       </div>
     </>
