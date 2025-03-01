@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Textarea } from "./components/ui/textarea";
 import FlickeringGrid from "./components/ui/flickering-grid";
 import { ExpandableTabs } from "./components/ui/expandable-tabs";
+import { ResultModal } from "./components/ui/result-modal";
 import {
   NotebookText,
   Smile,
@@ -86,13 +87,11 @@ function App() {
           }}
           className="min-h-[120px] w-full max-w-2xl bg-background/80 text-base backdrop-blur-sm md:min-h-[160px] md:text-lg"
         />
-        {processedText && (
-          <Textarea
-            value={processedText}
-            readOnly
-            className="min-h-[120px] w-full max-w-2xl bg-background/80 text-base backdrop-blur-sm md:min-h-[160px] md:text-lg"
-          />
-        )}
+        <ResultModal
+          isOpen={!!processedText}
+          onClose={() => setProcessedText("")}
+          result={processedText}
+        />
         {isLoading ? (
           <div className="text-blue-500">Processing your text...</div>
         ) : error ? (
