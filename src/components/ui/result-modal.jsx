@@ -1,5 +1,4 @@
 import * as React from "react";
-import { CopyToClipboard } from "./copy-to-clipboard";
 import { cn } from "@/lib/utils";
 
 export function ResultModal({ isOpen, onClose, result }) {
@@ -16,15 +15,29 @@ export function ResultModal({ isOpen, onClose, result }) {
       >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold">Result</h2>
+          <button
+            onClick={onClose}
+            className="rounded-full p-2 hover:bg-muted"
+            aria-label="Close modal"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-4 w-4"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
         </div>
-        <CopyToClipboard
-          position="top-right"
-          className="bg-background hover:bg-muted"
-          iconClassName="h-4 w-4"
-          timeout={2000}
-        >
-          <div className="whitespace-pre-wrap text-sm">{result}</div>
-        </CopyToClipboard>
+        <div className="whitespace-pre-wrap text-sm">{result}</div>
       </div>
     </div>
   );
