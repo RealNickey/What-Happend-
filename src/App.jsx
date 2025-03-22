@@ -19,10 +19,17 @@ function App() {
   const [error, setError] = useState(null);
 
   const tabs = [
-    { title: "Summary", icon: NotebookText },
-    { title: "Funny", icon: Smile },
-    { title: "Flirty", icon: MessageCircleHeart },
-    { title: "Analysis", icon: Brain },
+    {
+      title: "Summary",
+      icon: NotebookText,
+    },
+    { title: "Funny", icon: Smile},
+    {
+      title: "Flirty",
+      icon: MessageCircleHeart,
+    
+    },
+    { title: "Analysis", icon: Brain, },
   ];
 
   const handleTabChange = async (index) => {

@@ -81,16 +81,21 @@ export function ExpandableTabs({
             <Icon size={24} />
             <AnimatePresence initial={false}>
               {selected === index && (
-                <motion.span
+                <motion.div
                   variants={spanVariants}
                   initial="initial"
                   animate="animate"
                   exit="exit"
                   transition={transition}
-                  className="overflow-hidden"
+                  className="flex flex-col overflow-hidden"
                 >
-                  {tab.title}
-                </motion.span>
+                  <span>{tab.title}</span>
+                  {tab.description && (
+                    <span className="text-xs opacity-70">
+                      {tab.description}
+                    </span>
+                  )}
+                </motion.div>
               )}
             </AnimatePresence>
           </motion.button>
