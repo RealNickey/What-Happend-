@@ -2745,4 +2745,7 @@ export async function rewriteText(text, style) {
     const data = await response.json();
     return data.rewrittenText;
   } catch (error) {
-    console
+    console.log('Error in rewriteText:', error);
+    throw error;
+  }
+}
